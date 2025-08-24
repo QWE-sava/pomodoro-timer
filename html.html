@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ポモドーロタイマー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🍅ポモドーロタイマー🍅</h1>
+        <div id="status-display" class="status-display"></div>
+        <div id="timer-display" class="timer-display">25:00</div>
+        <div id="study-time-display" class="study-time-display">累計勉強時間: 00時間00分</div>
+        <div class="controls">
+            <button id="start-btn">スタート</button>
+            <button id="pause-btn">一時停止</button>
+            <button id="reset-btn">リセット</button>
+        </div>
+        <div class="audio-controls">
+            <label for="audio-upload">好きな曲をアップロード: </label>
+            <input type="file" id="audio-upload" accept="audio/*">
+            <audio id="background-music" controls loop></audio>
+        </div>
+        <div class="settings">
+            <label for="work-duration">作業時間（分）: </label>
+            <input type="number" id="work-duration" value="25" min="1">
+            <label for="break-duration">休憩時間（分）: </label>
+            <input type="number" id="break-duration" value="5" min="1">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

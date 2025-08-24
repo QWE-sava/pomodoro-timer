@@ -1,0 +1,121 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 350px;
+}
+
+h1 {
+    color: #d9534f;
+    margin-bottom: 5px;
+}
+
+#status-display {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.timer-display {
+    font-size: 72px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.study-time-display {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    color: white;
+}
+
+#start-btn {
+    background-color: #5cb85c;
+}
+
+#pause-btn {
+    background-color: #f0ad4e;
+}
+
+#reset-btn {
+    background-color: #d9534f;
+}
+
+.audio-controls, .settings {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.audio-controls input[type="file"] {
+    margin-top: 5px;
+}
+
+#background-music {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.settings label {
+    display: block;
+    margin-top: 10px;
+}
+
+.settings input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* 768px以上の画面に適用されるスタイル */
+@media (min-width: 768px) {
+    .container {
+        width: 100%; /* 横幅を最大まで広げる */
+        max-width: 100%; /* 最大幅の制限をなくす */
+        padding: 40px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+
+    #status-display {
+        font-size: 28px;
+    }
+
+    .timer-display {
+        font-size: 96px;
+    }
+
+    .controls button {
+        padding: 12px 24px;
+        font-size: 18px;
+    }
+
+    .settings input[type="number"] {
+        padding: 10px;
+    }
+}
