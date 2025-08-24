@@ -159,7 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ページロード時にクッキーから総勉強時間をロード
     const savedTime = getCookie('totalStudyTime');
-    if (savedTime !== null) {
+    // クッキーが存在し、有効な数字であるかチェック
+    if (savedTime !== null && !isNaN(parseInt(savedTime, 10))) {
         totalStudyTimeInSeconds = parseInt(savedTime, 10);
     }
 
