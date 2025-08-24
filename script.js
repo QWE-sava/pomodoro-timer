@@ -14,7 +14,30 @@ document.addEventListener('DOMContentLoaded', () => {
     let isWorking = true;
     let timeInSeconds = 25 * 60;
     let isPaused = true;
-    let totalStudyTimeInSeconds = 0; // 累計勉強時間の追跡
+    let totalStudyTimeInSeconds = 0;
+
+    // クッキーに値を保存する関数
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    // クッキーから値を読み込む関数
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
 
     function updateDisplay(seconds) {
         const minutes = Math.floor(seconds / 60);
@@ -48,10 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
         timerInterval = setInterval(() => {
             timeInSeconds--;
             
-            // 勉強中（isWorkingがtrue）の場合のみ、累計勉強時間を加算
             if (isWorking) {
                 totalStudyTimeInSeconds++;
-                updateStudyTimeDisplay(); // 累計時間を更新
+                updateStudyTimeDisplay();
             }
             
             updateDisplay(timeInSeconds);
@@ -79,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (backgroundMusic.src) {
             backgroundMusic.pause();
         }
+        // 一時停止時にクッキーに保存
+        setCookie('totalStudyTime', totalStudyTimeInSeconds, 365);
     }
 
     function resetTimer() {
@@ -91,9 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundMusic.pause();
             backgroundMusic.currentTime = 0;
         }
-        // リセットボタンが押されたとき、累計勉強時間もリセット
         totalStudyTimeInSeconds = 0;
         updateStudyTimeDisplay();
+        setCookie('totalStudyTime', 0, 365);
     }
 
     startBtn.addEventListener('click', () => {
@@ -133,7 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // ページロード時にクッキーから総勉強時間をロード
+    const savedTime = getCookie('totalStudyTime');
+    if (savedTime !== null) {
+        totalStudyTimeInSeconds = parseInt(savedTime, 10);
+    }
+
+    // ページのアンロード（閉じたり、リロードしたり）する前にCookieを保存
+    window.addEventListener('beforeunload', () => {
+        setCookie('totalStudyTime', totalStudyTimeInSeconds, 365);
+    });
+
     updateDisplay(timeInSeconds);
     updateStatus();
-    updateStudyTimeDisplay(); // 初期表示
+    updateStudyTimeDisplay();
 });
