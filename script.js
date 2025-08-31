@@ -70,12 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         timerInterval = setInterval(() => {
             timeInSeconds--;
-            
+
             if (isWorking) {
                 totalStudyTimeInSeconds++;
                 updateStudyTimeDisplay();
             }
-            
+
             updateDisplay(timeInSeconds);
 
             if (timeInSeconds <= 0) {
@@ -88,8 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         backgroundMusic.play().catch(e => console.log("再生エラー:", e));
                     }
                 } else {
-                    backgroundMusic.pause();
-                    backgroundMusic.currentTime = 0;
+                    if (backgroundMusic.src) {
+                        backgroundMusic.pause(); // 変更: 停止ではなく一時停止
+                    }
                 }
             }
         }, 1000);
@@ -101,7 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (backgroundMusic.src) {
             backgroundMusic.pause();
         }
-        // 一時停止時にクッキーに保存
         setCookie('totalStudyTime', totalStudyTimeInSeconds, 365);
     }
 
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStatus();
         if (backgroundMusic.src) {
             backgroundMusic.pause();
-            backgroundMusic.currentTime = 0;
+            backgroundMusic.currentTime = 0; // リセット時は最初から
         }
         totalStudyTimeInSeconds = 0;
         updateStudyTimeDisplay();
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundMusic.src = fileURL;
         }
     });
-    
+
     workDurationInput.addEventListener('change', () => {
         if (isPaused && isWorking) {
             timeInSeconds = workDurationInput.value * 60;
@@ -157,14 +157,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ページロード時にクッキーから総勉強時間をロード
     const savedTime = getCookie('totalStudyTime');
-    // クッキーが存在し、有効な数字であるかチェック
     if (savedTime !== null && !isNaN(parseInt(savedTime, 10))) {
         totalStudyTimeInSeconds = parseInt(savedTime, 10);
     }
 
-    // ページのアンロード（閉じたり、リロードしたり）する前にCookieを保存
     window.addEventListener('beforeunload', () => {
         setCookie('totalStudyTime', totalStudyTimeInSeconds, 365);
     });
